@@ -1,0 +1,25 @@
+// Config
+@import "config/functions";
+@import "config/variables";
+@import "config/mixins";
+
+// Base and elements (generic)
+@import "base/base";
+@import "base/vendors"; //<--- frameworks como bootstrap fontawesome etc
+
+// LAYOUT
+// Escribe solo los estilos de layout (division en regiones del viewport)
+@import "layout/layout";
+
+// Componentes
+// como cards card body card footer
+@import "components/buttons";
+@import "components/menus";
+
+// Theme (colors and fonts)
+@import "theme/typography";
+
+// Utilities (hacks)
+// Todos los hacks que hayas necesitado para solucionar conflictos
+// o resolver situaciones extremas. Se espera poder mejorarlos luego.
+@import "hacks/hacks";
