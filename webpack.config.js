@@ -1,8 +1,9 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const FileManagerPlugin = require("filemanager-webpack-plugin");
+// const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./src/js/app.js",
@@ -11,6 +12,8 @@ module.exports = {
     filename: "js/app.js",
   },
   plugins: [
+    // DELETE
+    new CleanWebpackPlugin(),
     // Extrae css
     new MiniCssExtractPlugin({
       filename: "css/app.css",
@@ -24,19 +27,19 @@ module.exports = {
       ],
     }),
     // Copia los archivos a una carpeta public
-    new FileManagerPlugin({
-      events: {
-        onEnd: {
-          copy: [
-            { source: "./dist/**/*.css", destination: "./public/css" },
-            { source: "./dist/**/*.js", destination: "./public/js" },
-            { source: "./dist/img", destination: "./public/img" },
-            { source: "./dist/fonts", destination: "./public/fonts" },
-            { source: "./dist/*.html", destination: "./public" },
-          ],
-        },
-      },
-    }),
+    // new FileManagerPlugin({
+    //   events: {
+    //     onEnd: {
+    //       copy: [
+    //         { source: "./dist/**/*.css", destination: "./public/css" },
+    //         { source: "./dist/**/*.js", destination: "./public/js" },
+    //         { source: "./dist/img", destination: "./public/img" },
+    //         { source: "./dist/fonts", destination: "./public/fonts" },
+    //         { source: "./dist/*.html", destination: "./public" },
+    //       ],
+    //     },
+    //   },
+    // }),
     new HandlebarsPlugin({
       entry: path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
       output: path.join(process.cwd(), "dist", "[name].html"),
