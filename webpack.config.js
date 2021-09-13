@@ -1,7 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-// const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
@@ -12,7 +11,7 @@ module.exports = {
     filename: "js/app.js",
   },
   plugins: [
-    // DELETE
+    // Delete
     new CleanWebpackPlugin(),
     // Extrae css
     new MiniCssExtractPlugin({
@@ -26,20 +25,7 @@ module.exports = {
         { from: "src/img", to: "img" },
       ],
     }),
-    // Copia los archivos a una carpeta public
-    // new FileManagerPlugin({
-    //   events: {
-    //     onEnd: {
-    //       copy: [
-    //         { source: "./dist/**/*.css", destination: "./public/css" },
-    //         { source: "./dist/**/*.js", destination: "./public/js" },
-    //         { source: "./dist/img", destination: "./public/img" },
-    //         { source: "./dist/fonts", destination: "./public/fonts" },
-    //         { source: "./dist/*.html", destination: "./public" },
-    //       ],
-    //     },
-    //   },
-    // }),
+    // HBS to html
     new HandlebarsPlugin({
       entry: path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
       output: path.join(process.cwd(), "dist", "[name].html"),
@@ -94,9 +80,18 @@ module.exports = {
     maxAssetSize: 512000,
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    watchFiles: ["src/**/*"],
     compress: true,
-    port: 6969,
+    port: 9000,
+    // open: {
+    //   app: {
+    //     name: "firefox",
+    //   },
+    // },
     open: true,
+    liveReload: true,
   },
 };

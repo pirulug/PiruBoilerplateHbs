@@ -1,25 +1,27 @@
 // Config
-@import "config/functions";
-@import "config/variables";
-@import "config/mixins";
+@import 'config/variables';
+@import 'config/functions';
+@import 'config/mixins';
 
-// Base and elements (generic)
-@import "base/base";
-@import "base/vendors"; //<--- frameworks como bootstrap fontawesome etc
+// Base
+@import 'base/reset';
+@import 'base/typografi';
 
-// LAYOUT
-// Escribe solo los estilos de layout (division en regiones del viewport)
-@import "layout/layout";
+// Vendors
+@import 'vendors/vendors';
 
-// Componentes
-// como cards card body card footer
-@import "components/buttons";
-@import "components/menus";
+// Layout
+@import 'layout/wrapper';
+@import 'layout/header';
+@import 'layout/footer';
 
-// Theme (colors and fonts)
-@import "theme/typography";
+// Components
+@import 'components/button';
+@import 'components/card';
 
-// Utilities (hacks)
-// Todos los hacks que hayas necesitado para solucionar conflictos
-// o resolver situaciones extremas. Se espera poder mejorarlos luego.
-@import "hacks/hacks";
+// Themes
+@import 'themes/dark';
+@import 'themes/light';
+
+// Hacks
+@import "hacks/hack";
