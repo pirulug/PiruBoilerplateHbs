@@ -1,8 +1,16 @@
 import "../scss/app.scss";
 
-// Bootstrap
-import "./modulos/bootstrap";
+// AdminKit (required)
+import "./modules/bootstrap";
 
-// FeatherIcons
-import "./modulos/feathericons"
+// Feather Icons
+import "./modules/feather";
 
+// Charts
+import "./modules/chartjs";
+
+// Forms
+import "./modules/flatpickr";
+
+// Maps
+import "./modules/vector-maps";

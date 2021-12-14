@@ -1,97 +1,127 @@
-const path = require("path");
+const Webpack = require("webpack");
+const Path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+const opts = {
+  rootDir: process.cwd(),
+  devBuild: process.env.NODE_ENV !== "production"
+};
 
 module.exports = {
-  entry: "./src/js/app.js",
+  entry: {
+    app: "./src/js/app.js"
+  },
+  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  devtool:
+    process.env.NODE_ENV === "production" ? "source-map" : "inline-source-map",
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "js/app.js",
+    path: Path.join(opts.rootDir, "dist"),
+    pathinfo: opts.devBuild,
+    filename: "js/[name].js",
+    chunkFilename: 'js/[name].js',
+  },
+  performance: { hints: false },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 5
+        }
+      }),
+      new CssMinimizerPlugin({})
+    ],
+    runtimeChunk: false
   },
   plugins: [
-    // Delete
-    new CleanWebpackPlugin(),
-    // Extrae css
+    // Extract css files to seperate bundle
     new MiniCssExtractPlugin({
       filename: "css/app.css",
-      chunkFilename: "css/app.css",
+      chunkFilename: "css/app.css"
     }),
-    // Copiar img fonts
+    // Copy fonts and images to dist
     new CopyWebpackPlugin({
       patterns: [
         { from: "src/fonts", to: "fonts" },
-        { from: "src/img", to: "img" },
-      ],
+        { from: "src/img", to: "img" }
+      ]
     }),
     // HBS to html
     new HandlebarsPlugin({
-      entry: path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
-      output: path.join(process.cwd(), "dist", "[name].html"),
-      partials: [path.join(process.cwd(), "src", "hbs", "*", "*.hbs")],
+      entry: Path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
+      output: Path.join(process.cwd(), "dist", "[name].html"),
+      partials: [Path.join(process.cwd(), "src", "hbs", "*", "*.hbs")],
+    }),
+    // Copy dist folder to static
+    new FileManagerPlugin({
+      events: {
+        onEnd: {
+          copy: [
+            { source: "./dist/", destination: "./static" }
+          ]
+        }
+      }
     }),
   ],
   module: {
-    // SCSS CSS Loader
     rules: [
+      // Babel-loader
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true
+          }
+        }
+      },
+      // Css-loader & sass-loader
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
           "postcss-loader",
-          "sass-loader",
-        ],
+          "sass-loader"
+        ]
       },
       // Load fonts
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "/[name].[ext]",
-              outputPath: "fonts/",
-              publicPath: "../fonts/",
-            },
-          },
-        ],
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name][ext]"
+        }
       },
       // Load images
       {
         test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "img/",
-              publicPath: "../img/",
-            },
-          },
-        ],
+        type: "asset/resource",
+        generator: {
+          filename: "img/[name][ext]"
+        }
       },
-    ],
+    ]
   },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
+  resolve: {
+    extensions: [".js", ".scss"],
+    modules: ["node_modules"],
+    alias: {
+      request$: "xhr"
+    }
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, "dist"),
+      directory: Path.join(__dirname, "static")
     },
-    watchFiles: ["src/**/*"],
     compress: true,
-    port: 9000,
-    // open: {
-    //   app: {
-    //     name: "firefox",
-    //   },
-    // },
-    open: true,
-    liveReload: true,
-  },
+    port: 8080,
+    open: true
+  }
 };
