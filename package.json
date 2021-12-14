@@ -1,7 +1,7 @@
 {
-  "name": "@adminkit/core",
-  "version": "3.1.0",
-  "description": "AdminKit - Bootstrap 5 Admin Template",
+  "name": "piruboilerplatehbs",
+  "version": "2.0.0",
+  "description": "PiruBoilerplateHbs",
   "keywords": [
     "bootstrap",
     "bootstrap 5",
@@ -16,19 +16,14 @@
     "html",
     "theme",
     "front-end",
-    "ui kit",
     "web"
   ],
-  "homepage": "https://adminkit.io/",
-  "bugs": {
-    "url": "https://github.com/adminkit/adminkit/issues"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adminkit/adminkit.git"
+    "url": "git+https://github.com/pirulug/PiruBoilerplateHbs.git"
   },
   "license": "MIT",
-  "author": "Paul Laros <support@adminkit.io>",
+  "author": "Pirulug",
   "files": [
     "dist"
   ],
