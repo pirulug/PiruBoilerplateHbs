@@ -6,6 +6,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const opts = {
   rootDir: process.cwd(),
@@ -39,6 +40,8 @@ module.exports = {
     runtimeChunk: false
   },
   plugins: [
+    // DELETE
+    new CleanWebpackPlugin(),
     // Extract css files to seperate bundle
     new MiniCssExtractPlugin({
       filename: "css/app.css",
@@ -54,9 +57,9 @@ module.exports = {
     }),
     // HBS to html
     new HandlebarsPlugin({
-      entry: Path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
+      entry: Path.join(process.cwd(), "src", "hbs", "pages", "*.{handlebars,hbs}"),
       output: Path.join(process.cwd(), "static", "[name].html"),
-      partials: [Path.join(process.cwd(), "src", "hbs", "*", "*.hbs")],
+      partials: [Path.join(process.cwd(), "src", "hbs", "partials", "*", "*.{handlebars,hbs}")],
     }),
     // Copy dist folder to static
     new FileManagerPlugin({
