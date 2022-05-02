@@ -41,6 +41,6 @@ Es una sensilla estructura para plantillas Html estaticos.
 
 problems with this dependency
 
-    autoprefixer": "10.4.6" Conflict
+    autoprefixer": "10.4.6" -> Conflict
 
-    autoprefixer": "10.4.2" Very God
+    autoprefixer": "10.4.2" -> Very God
