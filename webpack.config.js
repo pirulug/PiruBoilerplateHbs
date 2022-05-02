@@ -54,7 +54,7 @@ module.exports = {
     // HBS to html
     new HandlebarsPlugin({
       entry: Path.join(process.cwd(), "src", "hbs", "pages", "*.hbs"),
-      output: Path.join(process.cwd(), "dist", "[name].html"),
+      output: Path.join(process.cwd(), "static", "[name].html"),
       partials: [Path.join(process.cwd(), "src", "hbs", "*", "*.hbs")],
     }),
     // Copy dist folder to static
@@ -120,8 +120,10 @@ module.exports = {
     static: {
       directory: Path.join(__dirname, "static")
     },
+    watchFiles: ["src/**/*"],
     compress: true,
-    port: 8080,
-    open: true
+    port: 6971,
+    open: true,
+    liveReload: true
   }
 };
