@@ -31,7 +31,7 @@ module.exports = {
       new TerserPlugin({
         parallel: true,
         terserOptions: {
-          ecma: 5
+          ecma: 6
         }
       }),
       new CssMinimizerPlugin({})
