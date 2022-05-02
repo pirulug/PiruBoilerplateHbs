@@ -36,3 +36,11 @@ Es una sensilla estructura para plantillas Html estaticos.
 3. Para Sass importe sus partials desde `app.scss`, el orden está indicado en el mismo archivo
 4. Para Hbs, la carpeta `pages` contiene las paginas del proyecto y la carpeta `includes` los bloques.
 5. Para Js, la carpeta `modules` contiene los módulos que serán importados desde `app.js`
+
+# Caution
+
+problems with this dependency
+
+    autoprefixer": "10.4.6" Conflict
+
+    autoprefixer": "10.4.2" Very God
