@@ -4,18 +4,17 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const FileManagerPlugin = require("filemanager-webpack-plugin");
 const HandlebarsPlugin = require("handlebars-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const opts = {
   rootDir: process.cwd(),
-  devBuild: process.env.NODE_ENV !== "production"
+  devBuild: process.env.NODE_ENV !== "production",
 };
 
 module.exports = {
   entry: {
-    app: "./src/js/app.js"
+    app: "./src/js/app.js",
   },
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   devtool:
@@ -24,7 +23,7 @@ module.exports = {
     path: Path.join(opts.rootDir, "dist"),
     pathinfo: opts.devBuild,
     filename: "js/[name].js",
-    chunkFilename: 'js/[name].js',
+    chunkFilename: "js/[name].js",
   },
   performance: { hints: false },
   optimization: {
@@ -32,12 +31,12 @@ module.exports = {
       new TerserPlugin({
         parallel: true,
         terserOptions: {
-          ecma: 6
-        }
+          ecma: 6,
+        },
       }),
-      new CssMinimizerPlugin({})
+      new CssMinimizerPlugin({}),
     ],
-    runtimeChunk: false
+    runtimeChunk: false,
   },
   plugins: [
     // DELETE
@@ -45,31 +44,36 @@ module.exports = {
     // Extract css files to seperate bundle
     new MiniCssExtractPlugin({
       filename: "css/app.css",
-      chunkFilename: "css/app.css"
+      chunkFilename: "css/app.css",
     }),
     // Copy fonts and images to dist
     new CopyWebpackPlugin({
       patterns: [
         { from: "src/fonts", to: "fonts" },
         { from: "src/libs", to: "libs" },
-        { from: "src/img", to: "img" }
-      ]
+        { from: "src/img", to: "img" },
+      ],
     }),
     // HBS to html
     new HandlebarsPlugin({
-      entry: Path.join(process.cwd(), "src", "hbs", "pages", "*.{handlebars,hbs}"),
-      output: Path.join(process.cwd(), "static", "[name].html"),
-      partials: [Path.join(process.cwd(), "src", "hbs", "partials", "*", "*.{handlebars,hbs}")],
-    }),
-    // Copy dist folder to static
-    new FileManagerPlugin({
-      events: {
-        onEnd: {
-          copy: [
-            { source: "./dist/", destination: "./static" }
-          ]
-        }
-      }
+      entry: Path.join(
+        process.cwd(),
+        "src",
+        "hbs",
+        "pages",
+        "*.{handlebars,hbs}"
+      ),
+      output: Path.join(process.cwd(), "dist", "[name].html"),
+      partials: [
+        Path.join(
+          process.cwd(),
+          "src",
+          "hbs",
+          "partials",
+          "*",
+          "*.{handlebars,hbs}"
+        ),
+      ],
     }),
   ],
   module: {
@@ -81,9 +85,9 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            cacheDirectory: true
-          }
-        }
+            cacheDirectory: true,
+          },
+        },
       },
       // Css-loader & sass-loader
       {
@@ -92,42 +96,47 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           "css-loader",
           "postcss-loader",
-          "sass-loader"
-        ]
+          "sass-loader",
+        ],
       },
       // Load fonts
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         type: "asset/resource",
         generator: {
-          filename: "fonts/[name][ext]"
-        }
+          filename: "fonts/[name][ext]",
+        },
       },
       // Load images
       {
         test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/,
         type: "asset/resource",
         generator: {
-          filename: "img/[name][ext]"
-        }
+          filename: "img/[name][ext]",
+        },
       },
-    ]
+    ],
   },
   resolve: {
     extensions: [".js", ".scss"],
     modules: ["node_modules"],
     alias: {
-      request$: "xhr"
-    }
+      request$: "xhr",
+    },
   },
   devServer: {
     static: {
-      directory: Path.join(__dirname, "static")
+      directory: Path.join(__dirname, "static"),
     },
     watchFiles: ["src/**/*"],
     compress: true,
     port: 6971,
+    // open: {
+    //   app: {
+    //     name: "firefox",
+    //   },
+    // },
     open: true,
-    liveReload: true
-  }
+    liveReload: true,
+  },
 };

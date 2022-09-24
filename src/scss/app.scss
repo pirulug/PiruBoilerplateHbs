@@ -1,5 +1,5 @@
 // Variables
-@import "1-variables/app";
+@import "1-variables/variables";
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
@@ -27,3 +27,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 // Theme plugin styles
 @import "6-vendor/vendor";
+
+// Theme styles
+@import "7-hacks/hack";
