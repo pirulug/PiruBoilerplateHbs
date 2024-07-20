@@ -4,4 +4,4 @@ import "../scss/app.scss";
 import "./modules/bootstrap";
 
 // Feather Icons
-import "./modules/feather";
+// import "./modules/feather";

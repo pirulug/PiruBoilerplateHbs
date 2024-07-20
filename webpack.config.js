@@ -59,7 +59,7 @@ module.exports = {
       entry: Path.join(
         process.cwd(),
         "src",
-        "hbs",
+        "views",
         "pages",
         "*.{handlebars,hbs}"
       ),
@@ -68,7 +68,7 @@ module.exports = {
         Path.join(
           process.cwd(),
           "src",
-          "hbs",
+          "views",
           "partials",
           "*",
           "*.{handlebars,hbs}"
